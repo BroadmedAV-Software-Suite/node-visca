@@ -29,20 +29,20 @@ export interface AFInterval {
 
 /// PTStatus describes the pan/tilt status of a camera
 export class PTStatus {
-	public initStatus: number;
-	public initializing: boolean;
-	public ready: boolean;
-	public fail: boolean;
+	public initStatus!: number
+	public initializing!: boolean
+	public ready!: boolean
+	public fail!: boolean
 
-	public moveStatus: number;
-	public moveDone: boolean;
-	public moveFail: boolean;
+	public moveStatus!: number
+	public moveDone!: boolean
+	public moveFail!: boolean
 
-	public atMaxL: boolean;
-	public atMaxR: boolean;
-	public atMaxU: boolean;
-	public atMaxD: boolean;
-	public moving: boolean;
+	public atMaxL!: boolean
+	public atMaxR!: boolean
+	public atMaxU!: boolean
+	public atMaxD!: boolean
+	public moving!: boolean
 
 	constructor() { }
 
@@ -72,19 +72,19 @@ export class PTStatus {
 }
 
 export class CamLensData {
-	public zooming: boolean;
-	public zoomPos: number;
-	public digitalZoomEnabled: boolean;
+	public zooming!: boolean
+	public zoomPos!: number
+	public digitalZoomEnabled!: boolean
 
-	public focusing: boolean;
-	public focusPos: number;
-	public focusNearLimit: number;
-	public autoFocusMode: number;
-	public autoFocusSensitivity: number;
-	public autoFocusEnabled: boolean;
+	public focusing!: boolean
+	public focusPos!: number
+	public focusNearLimit!: number
+	public autoFocusMode!: number
+	public autoFocusSensitivity!: number
+	public autoFocusEnabled!: boolean
 
-	public lowContrast: boolean;
-	public loadingPreset: boolean;
+	public lowContrast!: boolean
+	public loadingPreset!: boolean
 
 	constructor() { }
 
@@ -118,22 +118,22 @@ export class CamLensData {
 }
 
 export class CamImageData {
-	public gain: number;
-	public gainr: number;
-	public gainb: number;
-	public wbMode: number;
-	public exposureMode: number;
-	public shutterPos: number;
-	public irisPos: number;
-	public gainPos: number;
-	public brightness: number;
-	public exposureCompPosition: number;
+	public gain!: number
+	public gainr!: number
+	public gainb!: number
+	public wbMode!: number
+	public exposureMode!: number
+	public shutterPos!: number
+	public irisPos!: number
+	public gainPos!: number
+	public brightness!: number
+	public exposureCompPosition!: number
 
-	public highResEnabled: boolean;
-	public wideDEnabled: boolean;
-	public backlightCompEnabled: boolean;
-	public exposureCompEnabled: boolean;
-	public slowShutterAutoEnabled: boolean;
+	public highResEnabled!: boolean
+	public wideDEnabled!: boolean
+	public backlightCompEnabled!: boolean
+	public exposureCompEnabled!: boolean
+	public slowShutterAutoEnabled!: boolean
 	constructor() { }
 
 	static fromData(data: number[]) {
@@ -161,11 +161,11 @@ export class CamImageData {
 }
 
 export class CamWideDParams {
-	public screenDisplay: number;
-	public detectionSensitivity: number;
-	public shadowCorrectionLevel: number;
-	public highlightCorrectionLevel: number;
-	public exposureRatio: number;
+	public screenDisplay!: number
+	public detectionSensitivity!: number
+	public shadowCorrectionLevel!: number
+	public highlightCorrectionLevel!: number
+	public exposureRatio!: number
 	constructor() { }
 
 	static fromData(data: number[]) {
@@ -185,74 +185,74 @@ export class CameraStatus {
 	// fields obtained from PTStatus are only
 	// inquire-able under that namespace, so
 	// we leave them there
-	panTiltStatus: PTStatus;
+	panTiltStatus!: PTStatus
 
 	// == fields obtained from CamLensData;
-	zooming: boolean;
-	zoomPos: number;
-	digitalZoomEnabled: boolean;
+	zooming!: boolean
+	zoomPos!: number
+	digitalZoomEnabled!: boolean
 
-	focusing: boolean;
-	focusPos: number;
-	focusNearLimit: number;
-	autoFocusEnabled: boolean; // you can always send a "trigger" event for one-time autofocus
-	autoFocusSensitivity: number;
+	focusing!: boolean
+	focusPos!: number
+	focusNearLimit!: number
+	autoFocusEnabled!: boolean // you can always send a "trigger" event for one-time autofocus
+	autoFocusSensitivity!: number
 
-	lowContrast: boolean;
-	loadingPreset: boolean;
+	lowContrast!: boolean
+	loadingPreset!: boolean
 
 	// == fields obtained from CamImageData inquiry
-	rGain: number;
-	bGain: number;
-	apertureGain: number;
-	wbMode: number;
-	exposureMode: number;
-	shutterPos: number;
-	irisPos: number;
-	gainPos: number;
-	brightness: number;
+	rGain!: number
+	bGain!: number
+	apertureGain!: number
+	wbMode!: number
+	exposureMode!: number
+	shutterPos!: number
+	irisPos!: number
+	gainPos!: number
+	brightness!: number
 	
-	highResEnabled: boolean;
-	wideDEnabled: boolean; // block inquiry responds 0 for off, 1, for all others
-	backlightCompEnabled: boolean;
-	exposureCompEnabled: boolean;
-	exposureCompPosition: number;
-	slowShutterAutoEnabled: boolean;
+	highResEnabled!: boolean
+	wideDEnabled!: boolean // block inquiry responds 0 for off, 1, for all others
+	backlightCompEnabled!: boolean
+	exposureCompEnabled!: boolean
+	exposureCompPosition!: number
+	slowShutterAutoEnabled!: boolean
 	
 
 	// == items only available through specific inquiries
-	powerStatus: boolean;
+	powerStatus!: boolean
 
-	ptPos: PTPos;
-	ptSpeed: PTSpeed;
+	ptPos!: PTPos
+	ptSpeed!: PTSpeed
 	
-	icrMode: boolean;
-	icrAutoMode: boolean;
-	icrThreshold: number;
-	gainLimit: number;
+	icrMode!: boolean
+	icrAutoMode!: boolean
+	icrThreshold!: number
+	gainLimit!: number
 	
-	autoFocusMode: number; // 0x00, 0x01, 0x02 (normal (on movement), interval, on zoom)
-	autoFocusIntervalTime: number;
+	autoFocusMode!: number // 0x00, 0x01, 0x02 (normal (on movement), interval, on zoom)
+	autoFocusIntervalTime!: number
 	
-	focusIRCorrection: number;
-	wideDMode: number; // wide dynamic range mode can be on, off, auto (0), 
-	wideDParams: CamWideDParams;
+	focusIRCorrection!: number
+	wideDMode!: number // wide dynamic range mode can be on, off, auto (0), 
+	wideDParams!: CamWideDParams
 	
-	noiseReductionLevel: number;
-	highSensitivityEnabled: boolean;
-	frozen: boolean;
+	noiseReductionLevel!: number
+	highSensitivityEnabled!: boolean
+	frozen!: boolean
 
-	effect: number;
-	digitalEffect: number;
-	digitalEffectLevel: number;
-	chromaSuppressLevel: number;
+	effect!: number
+	digitalEffect!: number
+	digitalEffectLevel!: number
+	chromaSuppressLevel!: number
 
-	cameraID: number;
-	colorGain: number;
-	colorHue: number;
+	cameraID!: number
+	colorGain!: number
+	colorHue!: number
 
-	videoFormatNow: number;
-	videoFormatNext: number;
+	videoFormatNow!: number
+	videoFormatNext!: number
 
 	constructor() { }
 
@@ -335,7 +335,7 @@ export class Camera extends EventEmitter {
 	inquiryReady: boolean;
 
 	// we use the timer to send buffered commands
-	updatetimer: NodeJS.Timeout;
+	updatetimer: NodeJS.Timeout | null
 
 	// transport should support the socket interface => .send(ViscaCommand)
 	constructor(index: number, transport: ViscaTransport, name : string = '') {
@@ -355,6 +355,7 @@ export class Camera extends EventEmitter {
 
 		// UDPTransports provide a unique uuid
 		this.uuid = transport.uuid ?? index.toString();
+		this.updatetimer = null
 	}
 
 	_clear() { this.cameraBuffers = {}; this.sentCommands = []; }
@@ -489,6 +490,8 @@ export class Camera extends EventEmitter {
 			case C.ERROR_COMMAND_FAILED:
 				message = `VISCA ERROR: command failed`
 				break;
+			default:
+				throw new Error(`camera.ts: invalid error type: ${errorType}`)
 		}
 		console.log(`CAMERA ERROR: id: ${this.index}, command socket: ${viscaCommand.socket}, message: ${message}\nRECEIVED: ${viscaCommand.toString()}`);
 		this.cameraBuffers[socketKey].handleError(message);

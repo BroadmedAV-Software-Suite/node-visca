@@ -38,10 +38,10 @@ export interface ViscaControllerConfig {
 // it also communicates with cameras over IP
 // and it exposes a UDP server for each serially connected camera
 export class ViscaController extends EventEmitter {
-	serialConnection: SerialTransport;
+	serialConnection!: SerialTransport;
 	ipServers: ViscaServer[] = [];
 	serialBroadcastCommands: ViscaCommand[] = []; // FIFO stack of serial commands sent
-	cameras: {[index:string]: Camera} = {};       // will be indexed with uuid strings for ip cameras
+	cameras: { [index: string]: Camera } = {};       // will be indexed with uuid strings for ip cameras
 	cameraCount = 0;
 
 	constructor(public config: ViscaControllerConfig) {
@@ -54,9 +54,9 @@ export class ViscaController extends EventEmitter {
 	}
 
 	// uuid will be generated when the data comes from an IP camera
-	addIPCamera(c: ViscaCameraConfig, doInquire: boolean = true) : Camera {
+	addIPCamera(c: ViscaCameraConfig, doInquire: boolean = true): Camera {
 		let transport = new UDPTransport(c.ip, c.port);
-		transport.on('data', ({uuid, viscaCommand}) => this.onUDPData({uuid, viscaCommand}));
+		transport.on('data', ({ uuid, viscaCommand }) => this.onUDPData({ uuid, viscaCommand }));
 
 		let camera = new Camera(1, transport, c.name); // IP cameras all have index 1
 		this.cameras[transport.uuid] = camera;
@@ -86,8 +86,8 @@ export class ViscaController extends EventEmitter {
 
 	onSerialOpen() { }
 	onSerialClose() { }
-	onSerialError(e:string) { console.log(e); }
-	onSerialData(viscaCommand:ViscaCommand) {
+	onSerialError(e: string) { console.log(e); }
+	onSerialData(viscaCommand: ViscaCommand) {
 		let v = viscaCommand;
 
 		// make sure we have this camera as an object if it came from a camera
@@ -134,12 +134,12 @@ export class ViscaController extends EventEmitter {
 		this.emit('update');
 	}
 
-	onUDPData({ uuid, viscaCommand }:UDPData) {
+	onUDPData({ uuid, viscaCommand }: UDPData) {
 		let camera = this.cameras[uuid];
 		return this.onCameraData(camera, viscaCommand);
 	}
 
-	onCameraData(camera:Camera, v:ViscaCommand) {
+	onCameraData(camera: Camera, v: ViscaCommand) {
 		switch (v.msgType) {
 			case C.MSGTYPE_IF_CLEAR:
 				camera._clear();
@@ -173,18 +173,18 @@ export class ViscaController extends EventEmitter {
 		this.emit('update');
 	}
 
-	sendSerial(viscaCommand:ViscaCommand) {
+	sendSerial(viscaCommand: ViscaCommand) {
 		this.serialConnection.write(viscaCommand);
 	}
 
 	// forces a command to be a broadcast command (only applies to serial)
-	broadcastSerial(viscaCommand:ViscaCommand) {
+	broadcastSerial(viscaCommand: ViscaCommand) {
 		viscaCommand.broadcast = true;
 		this.serialConnection.write(viscaCommand);
 	}
 
 	// forces a command to go to a specific camera
-	sendToCamera(camera:Camera, viscaCommand:ViscaCommand) {
+	sendToCamera(camera: Camera, viscaCommand: ViscaCommand) {
 		camera.sendCommand(viscaCommand);
 	}
 
@@ -233,7 +233,7 @@ export class ViscaController extends EventEmitter {
 	}
 
 	// for debugging
-	dump(packet:number[], title:string = null) {
+	dump(packet: number[], title: string | undefined = undefined) {
 		if (!packet || packet.length == 0) return;
 
 		let header = packet[0];

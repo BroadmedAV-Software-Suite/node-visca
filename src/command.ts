@@ -67,13 +67,13 @@ export class ViscaCommand {
 	description: string = '';
 
 	dataParser: (x:number[])=>any;
-	onAck: Function;
-	onComplete: Function;
-	onError: (x:string)=>void;
+	onAck?: Function;
+	onComplete?: Function;
+	onError?: (x:string)=>void;
 
 	// local metadata
-	addedAt: number;
-	sentAt: number;
+	addedAt!: number;
+	sentAt!: number;
 
 	constructor( {
 		// header items
@@ -92,9 +92,9 @@ export class ViscaCommand {
 		data = [],
 
 		// callback functions
-		onComplete = null,
-		onError = null,
-		onAck = null,
+		onComplete = undefined,
+		onError = undefined,
+		onAck = undefined,
 		dataParser = Parsers.NoParser.parse,
 	}: ViscaCommandParams ) {
 
@@ -168,7 +168,7 @@ export class ViscaCommand {
 		// find message type
 		let msgTypeString = ''
 		let dataTypeString = ''
-		let cmdTypeString = null;
+		let cmdTypeString = undefined;
 		for (let key of Object.keys(C)) {
 			let val = C[key];
 			if (key.match(/MSGTYPE/) && val == this.msgType) msgTypeString = key;
@@ -183,22 +183,22 @@ export class ViscaCommand {
 	// these might be called from another file, so leave them public
 	handleAck() {
 		this.status = C.MSGTYPE_ACK;
-		if ( this.onAck != null ) this.onAck();
+		if ( this.onAck != undefined ) this.onAck();
 	}
 
 	handleError(err:string) {
 		this.status = C.MSGTYPE_ERROR;
-		if ( this.onError != null ) this.onError(err);
+		if ( this.onError != undefined ) this.onError(err);
 	}
 
 	// some command completions include data
-	handleComplete( data: number[] = null ) {
+	handleComplete( data: number[] | undefined = undefined ) {
 		this.status = C.MSGTYPE_COMPLETE;
-		if ( this.dataParser != null && data != null ) {
+		if ( this.dataParser != undefined && data != undefined ) {
 			data = this.dataParser( data );
 		}
-		if ( this.onComplete != null ) {
-			if ( data == null || data.length == 0 )
+		if ( this.onComplete != undefined ) {
+			if ( data == undefined || data.length == 0 )
 				this.onComplete();
 			else
 				this.onComplete( data );
@@ -248,7 +248,7 @@ export class ViscaCommand {
 	static cmd( recipient = -1, dataType: number, data: number[] = [], description: string = '' ) {
 		return new ViscaCommand( { msgType: C.MSGTYPE_COMMAND, dataType, recipient, data, description } );
 	}
-	static inquire( recipient = -1, dataType: number, data: number[], onComplete: Function, dataParser: (x:number[])=>any, description: string = '' ) {
+	static inquire( recipient = -1, dataType: number, data: number[], onComplete?: Function, dataParser?: (x:number[])=>any, description: string = '' ) {
 		return new ViscaCommand( { msgType: C.MSGTYPE_INQUIRY, dataType, recipient, data, dataParser, onComplete, description } );
 	}
 	static cancel( recipient = -1, socket = 0 ) {

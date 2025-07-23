@@ -13,7 +13,7 @@ import { UDPData, UDPTransport, ViscaServer } from "./visca-ip"
 // [name] is a user-readable name for the camera.
 export interface ViscaCameraConfig {
 	name: string,
-	id: number,
+	id?: number,
 	ip: string,
 	port: number,
 }
